@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Detalle de orden | Grafimaster CRM{% endblock %}
+{% block content %}
+<div class="card card-soft p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-start">
+        <div>
+            <h3 class="fw-bold">Orden #{{ orden.id }}</h3>
+            <p class="text-muted mb-0">Cliente: {{ orden.cliente.nombre }}</p>
+            <p class="text-muted">Estado: {{ orden.estado }}</p>
+        </div>
+        <a href="{% url 'orden_editar' orden.pk %}" class="btn btn-outline-primary">Editar orden</a>
+    </div>
+    <hr>
+    <p><strong>Descripción:</strong> {{ orden.descripcion }}</p>
+    <p><strong>Especificaciones:</strong> {{ orden.especificaciones|default:'-' }}</p>
+    <p><strong>Observaciones:</strong> {{ orden.observaciones|default:'-' }}</p>
+    <p><strong>Fecha de entrega:</strong> {{ orden.fecha_entrega|default:'Sin fecha' }}</p>
+</div>
+
+<div class="card card-soft p-4 mb-4">
+    <h5 class="fw-bold">Registro de pagos</h5>
+    <form method="post">
+        {% csrf_token %}
+        {{ pago_form.as_p }}
+        <button class="btn btn-primary">Guardar pago</button>
+    </form>
+</div>
+
+<div class="card card-soft p-4">
+    <h5 class="fw-bold">Conversaciones por WhatsApp</h5>
+    {% for mensaje in conversaciones %}
+        <div class="border rounded p-2 mb-2">
+            <strong>{{ mensaje.remitente }}</strong> <small class="text-muted">{{ mensaje.fecha_envio }}</small>
+            <div>{{ mensaje.mensaje }}</div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Aún no hay conversaciones registradas.</p>
+    {% endfor %}
+</div>
+{% endblock %}

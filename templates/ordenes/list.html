@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Órdenes | Grafimaster CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="fw-bold">Órdenes de trabajo</h2>
+        <p class="text-muted">Controla el estado de cada pedido, entrega y pago.</p>
+    </div>
+    <a href="{% url 'orden_nueva' %}" class="btn btn-primary">Nueva orden</a>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+    <div class="col-md-8">
+        <input type="text" name="q" class="form-control" placeholder="Buscar por descripción o cliente" value="{{ texto }}">
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-outline-primary w-100">Buscar</button>
+    </div>
+</form>
+
+<div class="card card-soft p-3">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden in ordenes %}
+            <tr>
+                <td>{{ orden.id }}</td>
+                <td>{{ orden.cliente.nombre }}</td>
+                <td>{{ orden.descripcion }}</td>
+                <td><span class="badge bg-primary-subtle text-primary">{{ orden.estado }}</span></td>
+                <td><a href="{% url 'orden_detalle' orden.pk %}" class="btn btn-sm btn-outline-primary">Ver</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-muted">No hay órdenes registradas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

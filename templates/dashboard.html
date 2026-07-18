@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Grafimaster CRM{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">Panel de control</h2>
+        <p class="text-muted">Vista general para coordinar clientes, órdenes y pagos.</p>
+    </div>
+    <a href="{% url 'orden_nueva' %}" class="btn btn-primary">Nueva orden</a>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card card-soft p-3">
+            <div class="text-muted">Clientes</div>
+            <h3 class="fw-bold">{{ clientes }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-soft p-3">
+            <div class="text-muted">Órdenes</div>
+            <h3 class="fw-bold">{{ ordenes }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-soft p-3">
+            <div class="text-muted">Pendientes</div>
+            <h3 class="fw-bold">{{ pendientes }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-soft p-3">
+            <div class="text-muted">Entregadas</div>
+            <h3 class="fw-bold">{{ entregadas }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card card-soft p-3">
+            <h5 class="fw-bold mb-3">Últimas órdenes</h5>
+            <ul class="list-group list-group-flush">
+                {% for orden in ordenes_recientes %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>#{{ orden.id }} {{ orden.cliente.nombre }}</strong><br>
+                        <small class="text-muted">{{ orden.descripcion }}</small>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary badge-status">{{ orden.estado }}</span>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">No hay órdenes registradas.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card card-soft p-3">
+            <h5 class="fw-bold mb-3">Clientes recientes</h5>
+            <ul class="list-group list-group-flush">
+                {% for cliente in clientes_recientes %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <strong>{{ cliente.nombre }}</strong><br>
+                        <small class="text-muted">{{ cliente.telefono }}</small>
+                    </div>
+                    <span class="badge bg-success-subtle text-success badge-status">{% if cliente.es_recurrente %}Recurrente{% else %}Nuevo{% endif %}</span>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">No hay clientes registrados.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
