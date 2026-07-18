@@ -17,8 +17,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [path for path in [BASE_DIR / 'static'] if path.exists()]
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,9 +28,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t8d*zm=grhqyb-u06t6dhi0d_y-u7+-bq0um#9c26n*x5e957f')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'grafimastertacna.pythonanywhere.com,localhost,127.0.0.1').split(',')
 
 
 # Application definition

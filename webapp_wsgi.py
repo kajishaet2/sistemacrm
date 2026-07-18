@@ -1,7 +1,7 @@
 import os
 import sys
 
-path = '/home/your_username/your_project_folder'
+path = '/home/grafimastertacna/sistemacrm'
 sys.path.insert(0, path)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'
 
